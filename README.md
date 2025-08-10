@@ -10,7 +10,7 @@ Ensure the VNet links are properly configured between:
 - The Function App’s subnet.
 - The Private Endpoint’s subnet.
 - The Private DNS Zone.
-This setup ensures that all traffic between your Function App and Storage Account stays within your private network, improving security and compliance.
+This setup ensures that all traffic between your Function App and Storage Account stays within your private network, improving security.
 
 Link to the Function App: https://suchetafunctionapp-dbchehfzdcb8fwf0.canadaeast-01.azurewebsites.net/api/MyFunction
 
