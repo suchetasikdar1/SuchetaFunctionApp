@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Find Canadian Animal Park</title>
+</head>
+<body>
+    <h1>Find the National Park for a Canadian Animal</h1>
+    <form id="animalForm">
+        <label for="animal">Choose an animal:</label>
+  <select name="animal" id="animal">
+    <option value="arctic fox">Arctic Fox</option>
+    <option value="arctic hare">Arctic Hare</option>
+    <option value="arctic wolf">Arctic Wolf</option>
+    <option value="bald eagle">Bald Eagle</option>
+    <option value="barred owl">Barred Owl</option>
+    <option value="beaver">Beaver</option>
+    <option value="bison">Bison</option>
+    <option value="black bear">Black Bear</option>
+    <option value="bobcat">Bobcat</option>
+    <option value="caribou">Caribou</option>
+    <option value="cormorant">Cormorant</option>
+    <option value="cougar">Cougar</option>
+    <option value="dall sheep">Dall Sheep</option>
+    <option value="deer">Deer</option>
+    <option value="falcon">Falcon</option>
+    <option value="golden eagle">Golden Eagle</option>
+    <option value="grizzly bear">Grizzly Bear</option>
+    <option value="grey seal">Grey Seal</option>
+    <option value="grey whale">Grey Whale</option>
+    <option value="humpback whale">Humpback Whale</option>
+    <option value="lynx">Lynx</option>
+    <option value="marmot">Marmot</option>
+    <option value="massasauga rattlesnake">Massasauga Rattlesnake</option>
+    <option value="monarch butterfly">Monarch Butterfly</option>
+    <option value="moose">Moose</option>
+    <option value="mountain goat">Mountain Goat</option>
+    <option value="muskox">Muskox</option>
+    <option value="narwhal">Narwhal</option>
+    <option value="orca">Orca</option>
+    <option value="osprey">Osprey</option>
+    <option value="peregrine falcon">Peregrine Falcon</option>
+    <option value="plains bison">Plains Bison</option>
+    <option value="polar bear">Polar Bear</option>
+    <option value="porcupine caribou">Porcupine Caribou</option>
+    <option value="prairie dog">Prairie Dog</option>
+    <option value="puffin">Puffin</option>
+    <option value="raccoon">Raccoon</option>
+    <option value="red fox">Red Fox</option>
+    <option value="river otter">River Otter</option>
+    <option value="sea lion">Sea Lion</option>
+    <option value="sea otter">Sea Otter</option>
+    <option value="seal">Seal</option>
+    <option value="seabirds">Seabirds</option>
+    <option value="snowy owl">Snowy Owl</option>
+    <option value="snapping turtle">Snapping Turtle</option>
+    <option value="swift fox">Swift Fox</option>
+    <option value="wolverine">Wolverine</option>
+    <option value="wolf">Wolf</option>
+    <option value="whale">Whale</option>
+    <option value="whooping crane">Whooping Crane</option>
+    <option value="wild horses">Wild Horses</option>
+    </select>
+        <button type="submit">Find Park</button>
+    </form>
+
+    <p id="result"></p>
+
+<script>
+    document.getElementById("animalForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const animal = document.getElementById("animal").value;
+
+        try {
+            const response = await fetch("https://suchetafunctionapp-dbchehfzdcb8fwf0.canadaeast-01.azurewebsites.net/api/MyFunction", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `animal=${encodeURIComponent(animal)}`
+            });
+
+            const text = await response.text();
+            document.getElementById("result").innerText = text;
+        } catch (error) {
+            document.getElementById("result").innerText = "Error contacting server.";
+            console.error("Fetch error:", error);
+        }
+    });
+</script>
+
+</body>
+<footer style="margin-top: 40px; font-size: 0.9em; color: #555; text-align: center;">
+    <hr>
+    <p>This app was built by <strong>Sucheta Sikdar</strong> using Azure Function App.</p>
+</footer>
+</html>
