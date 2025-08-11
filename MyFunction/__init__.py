@@ -4,6 +4,7 @@ import os
 import urllib.parse
 import json
 
+# This is a python dictionary
 animal_to_park = {
     "caribou": [
         "Akami-Uapishkᵁ-KakKasuak-Mealy Mountains National Park",
@@ -201,30 +202,41 @@ animal_to_park = {
     ],
     "falcon": ["Tuktut Nogait National Park"]
 }
-
+# For HTTP request gives a HTTP response
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info("Processing request for Canadian animal to national park.")
-
+    # GET request - retrieve data 
     if req.method == "GET":
         html_path = os.path.join(os.path.dirname(__file__), "index.html")
         try:
+            # read file object
             with open(html_path, "r", encoding="utf-8") as f:
                 html_content = f.read()
+            # treat the webpage asked for as an html
             return func.HttpResponse(html_content, mimetype="text/html")
         except Exception as e:
             logging.error(f"Error reading HTML file: {e}")
             return func.HttpResponse("Error loading page", status_code=500)
-
+    # POST - send data
     elif req.method == "POST":
         try:
+            # retrieve the header from the incoming request
             content_type = req.headers.get("Content-Type", "")
+            # Check if the content type is 'application/x-www-form-urlencoded',
+            # which is the standard format for HTML form submissions.
             if "application/x-www-form-urlencoded" in content_type:
+                # Get the bytes from the request body
                 body_bytes = req.get_body()
+                # urllib.parse.parse_qs is a handy function that will turn form strings into python dictionary
                 parsed_body = urllib.parse.parse_qs(body_bytes.decode())
+                # Extract the value associated with the 'animal' field.
+                # If the key doesn't exist, default to None.
                 animal = parsed_body.get("animal", [None])[0]
             else:
                 return func.HttpResponse("Unsupported content type", status_code=415)
         except Exception as e:
+            # If any error occurs during parsing (e.g., decoding issues, malformed data),
+            # log the error and return a 400 (Bad Request) response.
             logging.error(f"Error parsing request: {e}")
             return func.HttpResponse("Invalid request format", status_code=400)
 
@@ -235,15 +247,16 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             if parks:
                 # Ensure it's a list
                 if isinstance(parks, str):
+                    #wrap the park into a python list. 
                     parks = [parks]
                 return func.HttpResponse(
-                    json.dumps(parks),
-                    mimetype="application/json",
-                    status_code=200
+                    json.dumps(parks),               # Convert the list to a JSON string
+                    mimetype="application/json",     # Set the MIME type to indicate JSON content
+                    status_code=200                  # HTTP 200 OK
                 )
             else:
                 return func.HttpResponse(
-                    json.dumps([]),
+                    json.dumps([]),                  # Return empty JSON array
                     mimetype="application/json",
                     status_code=200
                 )
