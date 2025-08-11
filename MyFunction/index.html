@@ -84,26 +84,33 @@
     <div id="result"></div>
 
     <script>
+        // Add an event listener to the form with ID "animalForm"
+        // This listens for the "submit" event
         document.getElementById("animalForm").addEventListener("submit", async function (e) {
+            // Prevent the default form submission behavior (which would reload the page)
             e.preventDefault();
             const animal = document.getElementById("animal").value;
 
             try {
+                // Send a POST request to the Azure Function endpoint
                 const response = await fetch("https://suchetafunctionapp-dbchehfzdcb8fwf0.canadaeast-01.azurewebsites.net/api/MyFunction", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded"
                     },
+                    // Encode the animal name safely for transmission
                     body: `animal=${encodeURIComponent(animal)}`
                 });
 
                 const contentType = response.headers.get("content-type");
                 let parks = [];
-
+                // If the response is JSON, parse it into the parks array
                 if (contentType && contentType.includes("application/json")) {
                     parks = await response.json();
-                } else {
+                } else {                    
+                    // If the response is not JSON, treat it as plain text
                     const text = await response.text();
+                    // backticks allow variable interpolation
                     document.getElementById("result").innerText = text || `No parks found for ${animal}.`;
                     return;
                 }
@@ -111,9 +118,11 @@
 
                 const resultDiv = document.getElementById("result");
                 resultDiv.innerHTML = "";
-
+                // If parks were found and it's a non-empty array
                 if (Array.isArray(parks) && parks.length > 0) {
+                    // Create an unordered list element to display the parks
                     const list = document.createElement("ul");
+                    // Loop through each park and add it as a list item
                     parks.forEach(park => {
                         const item = document.createElement("li");
                         item.textContent = park;
@@ -136,4 +145,5 @@
     <p>This app was built by <strong>Sucheta Sikdar</strong> using Azure Function App.</p>
 </footer>
 </html>
+
 
