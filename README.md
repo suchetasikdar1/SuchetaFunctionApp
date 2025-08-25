@@ -7,8 +7,7 @@ Use Virtual Network Integration for your Function App.
 Create a Private Endpoint for the Storage Account.
 Configure a Private DNS Zone to resolve storage URLs securely.
 Ensure the VNet links are properly configured between:
-- The Function App’s subnet.
-- The Private Endpoint’s subnet.
+- Virtual network hosting the Function App’s subnet and the Private Endpoint’s subnet.
 - The Private DNS Zone.
 This setup ensures that all traffic between your Function App and Storage Account stays within your private network, improving security.
 
