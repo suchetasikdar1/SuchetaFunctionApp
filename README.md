@@ -1,7 +1,7 @@
 SuchetaFunctionApp is an Azure Function App built with Python 3.10. It is activated via an HTTP trigger. It allows users to select a Canadian animal from a dropdown menu and returns the name of Canadian National Park(s) where that animal can be found.
 
 Note: This app only works with Python 3.10. Higher versions (e.g., 3.11 or 3.12) are not supported by the Azure Functions runtime and may cause deployment errors.
-Folder structure matters Ensure your project follows the correct Azure Functions layout when deploying via VS Code or CLI
+Folder structure matters. Ensure your project follows the correct Azure Functions layout when deploying via VS Code or CLI.
 Do not allow public access to the associated Azure Storage Account. Instead:
 Use Virtual Network Integration for your Function App.
 Create a Private Endpoint for the Storage Account.
